@@ -791,7 +791,11 @@ with tab_jobs:
                 if job.get('calc_llm', False): tools_str += " 🤖"
                 st.caption(f"ID: {job['id']} | Model: {job.get('model', 'base')} | Tools: {tools_str}")
                 
-                if job['status'] == "Failed": st.error("Failed")
+                if job['status'] == "Failed":
+                    st.error("Failed")
+                    if job.get('error'):
+                        with st.expander("Show Error Details"):
+                            st.code(job['error'])
                 elif job['status'] == "Completed": pass
                 elif job['status'] == "Queued": st.info("⏱️ Queued")
                 else: st.progress(job['progress'], text=f"{job['status']} ({job['progress']}%)")
