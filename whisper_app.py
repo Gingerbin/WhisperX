@@ -272,7 +272,15 @@ if "--worker" in sys.argv:
                     out_json = job_file.replace(".json", "_ifw.json")
                     
                     import shutil
-                    ifw_bin = shutil.which("insanely-fast-whisper") or "insanely-fast-whisper"
+                    import sys
+                    # Windows Python packages scripts into Scripts/ folder instead of bin/
+                    ifw_bin = shutil.which("insanely-fast-whisper")
+                    if not ifw_bin:
+                        if sys.platform == "win32":
+                            ifw_bin = os.path.join(os.path.dirname(sys.executable), "insanely-fast-whisper.exe")
+                        else:
+                            ifw_bin = os.path.join(os.path.dirname(sys.executable), "insanely-fast-whisper")
+                    
                     cmd = [
                         ifw_bin,
                         "--file-name", audio_path,
@@ -289,7 +297,7 @@ if "--worker" in sys.argv:
                         cmd.extend(["--hf-token", hf_token])
                     
                     try:
-                        subprocess.run(cmd, check=True)
+                        subprocess.run(cmd, check=True, shell=sys.platform == 'win32')
                     except subprocess.CalledProcessError as e:
                         raise Exception(f"insanely-fast-whisper failed: {e}")
                     
