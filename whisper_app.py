@@ -1,5 +1,19 @@
 import sys
 import os
+import shutil
+
+# Auto-install FFmpeg in the background for Windows users
+if not shutil.which("ffmpeg"):
+    try:
+        import imageio_ffmpeg
+        ffmpeg_exe = imageio_ffmpeg.get_ffmpeg_exe()
+        target_dir = os.path.dirname(sys.executable)
+        target_exe = os.path.join(target_dir, "ffmpeg.exe" if sys.platform == "win32" else "ffmpeg")
+        if not os.path.exists(target_exe):
+            shutil.copy(ffmpeg_exe, target_exe)
+    except Exception as e:
+        pass
+
 import json
 import traceback
 import time

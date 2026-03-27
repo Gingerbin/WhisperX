@@ -8,3 +8,5 @@ requests
 python-docx
 streamlit-autorefresh
 pandas
+
+imageio-ffmpeg
