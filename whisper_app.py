@@ -1,5 +1,10 @@
 import sys
 import os
+# Bypass Windows/Corporate Firewall SSL Certificate issues for HuggingFace downloads
+os.environ["CURL_CA_BUNDLE"] = ""
+os.environ["REQUESTS_CA_BUNDLE"] = ""
+os.environ["HF_HUB_DISABLE_SSL_VERIFICATION"] = "1"
+
 import shutil
 
 # Auto-install FFmpeg in the background for Windows users
