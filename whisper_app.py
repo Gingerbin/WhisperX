@@ -271,8 +271,10 @@ if "--worker" in sys.argv:
                     
                     out_json = job_file.replace(".json", "_ifw.json")
                     
+                    import shutil
+                    ifw_bin = shutil.which("insanely-fast-whisper") or "insanely-fast-whisper"
                     cmd = [
-                        "/home/gingerbin/.openclaw/workspace/.venv/bin/insanely-fast-whisper",
+                        ifw_bin,
                         "--file-name", audio_path,
                         "--model-name", hf_model,
                         "--transcript-path", out_json,
