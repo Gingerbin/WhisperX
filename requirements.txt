@@ -1,0 +1,7 @@
+streamlit
+insanely-fast-whisper
+whisperx
+torch
+pydub
+vaderSentiment
+requests
