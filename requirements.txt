@@ -6,3 +6,5 @@ pydub
 vaderSentiment
 requests
 python-docx
+streamlit-autorefresh
+pandas
