@@ -5,3 +5,4 @@ torch
 pydub
 vaderSentiment
 requests
+python-docx
