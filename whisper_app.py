@@ -27,10 +27,15 @@ PSYCH_DICT = {
 
 if "--worker" in sys.argv:
     lock_file = "jobs/worker.lock"
-    import fcntl
     lock_fd = open(lock_file, 'w')
-    try: fcntl.flock(lock_fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
-    except OSError: sys.exit(0)
+    try:
+        import fcntl
+        try: fcntl.flock(lock_fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except OSError: sys.exit(0)
+    except ImportError:
+        import msvcrt
+        try: msvcrt.locking(lock_fd.fileno(), msvcrt.LK_NBLCK, 1)
+        except OSError: sys.exit(0)
         
     import whisperx
     import torch
